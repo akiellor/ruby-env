@@ -17,4 +17,4 @@ function get_babushka {
 
 get_babushka
 
-babushka 'rbenv' user=vagrant
+babushka 'ruby.env' user=vagrant

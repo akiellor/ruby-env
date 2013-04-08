@@ -1,5 +1,10 @@
 require 'etc'
 
+dep "ruby.env", :user do
+  requires 'rbenv'.with(:user => user)
+  requires 'vim'.with(:user => user)
+end
+
 dep "rbenv", :user do
   requires 'rbenv.git'.with(:user => user, :commit => "7a10b64cf7e4df3261dec94f3c609a64a04998ef")
   requires 'rbenv.profile'.with(:user => user)
