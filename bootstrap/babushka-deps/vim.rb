@@ -2,12 +2,17 @@ require 'etc'
 
 dep "vim", :user do
   requires 'vim.managed'
+  requires 'exuberant-ctags.managed'
   requires 'vundle'.with(:user => user)
   requires 'vimrc'.with(:user => user)
 end
 
 dep "vim.managed" do
   provides "vim"
+end
+
+dep 'exuberant-ctags.managed' do
+  provides "ctags"
 end
 
 dep "vundle", :user do
@@ -25,20 +30,16 @@ dep "vimrc", :user do
   user_home = Etc.getpwnam(user).dir
   vimrc = File.join(user_home, ".vimrc")
   vimrc_content = <<-EOS
-
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'https://github.com/sjbach/lusty.git'
 Bundle 'https://github.com/majutsushi/tagbar.git'
 Bundle 'https://github.com/altercation/vim-colors-solarized.git'
 Bundle 'https://github.com/ervandew/supertab.git'
 
 filetype plugin indent on
-
-BundleInstall
 
 let g:SuperTabDefaultCompletionType = "context"
 
