@@ -8,6 +8,9 @@ dep "vim", :user do
 end
 
 dep "vim.managed" do
+  installs {
+    via :apt, "vim-nox git"
+  }
   provides "vim"
 end
 
