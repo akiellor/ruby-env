@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+function get_babushka {
+  if ! command -v curl >/dev/null 2>&1; then
+    apt-get update
+
+    apt-get -y install curl
+  fi
+
+  if ! command -v babushka >/dev/null 2>&1; then
+    echo "Installing Babushka..."
+
+    bash -c "`curl https://babushka.me/up`"
+  fi
+}
+
+get_babushka
+
+babushka 'rbenv' user=vagrant
