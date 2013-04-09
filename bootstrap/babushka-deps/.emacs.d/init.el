@@ -11,6 +11,6 @@
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
-    (package-install p)))(add-to-list)
+    (package-install p)))
 
 (load-theme 'manoj-dark)
