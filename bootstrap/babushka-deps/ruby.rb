@@ -17,6 +17,8 @@ dep 'make.managed' do
 end
 
 dep "rbenv.git", :user, :commit do
+  requires 'git.managed'
+
   user_home = Etc.getpwnam(user).dir
   rbenv = File.expand_path(".rbenv", user_home)
  
@@ -29,6 +31,8 @@ dep "rbenv.git", :user, :commit do
 end
 
 dep "rbenv-ruby-build.git", :user, :commit do
+  requires 'git.managed'
+  
   user_home = Etc.getpwnam(user).dir
   ruby_build = File.expand_path(File.join(".rbenv", "plugins", "ruby-build"), user_home)
  

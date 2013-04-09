@@ -1,17 +1,41 @@
 require 'etc'
 
 dep "vim", :user do
-  requires 'vim.managed'
+  requires 'vim.bin'.with(:user => user)
   requires 'exuberant-ctags.managed'
   requires 'vundle'.with(:user => user)
   requires 'vimrc'.with(:user => user)
 end
 
-dep "vim.managed" do
-  installs {
-    via :apt, "vim-nox git"
-  }
-  provides "vim"
+dep "vim.bin", :user do
+  requires 'user.bin'.with(:user => user)
+  
+  user_home = Etc.getpwnam(user).dir
+  vim_bin = File.join(user_home, ".opt", "vim73")
+  
+  met? { vim_bin.p.dir? }
+  meet do
+    vim_bin.p.parent.create_dir
+    shell! "cd #{vim_bin.p.parent} && curl ftp://ftp.vim.org/pub/vim/unix/vim-7.3.tar.bz2 | tar jxf -"
+    shell! "cd #{vim_bin} && ./configure --enable-rubyinterp"
+    shell! "cd #{vim_bin} && make"
+    shell! "ln -s #{File.join(vim_bin, "src", "vim")} #{File.join(user_home, ".bin", "vim")}"
+    shell! "chown #{user}:#{user} -R #{user_home}"
+  end
+end
+
+dep "user.bin", :user do
+  requires '.profile.d'.with(:user => user)
+
+  user_home = Etc.getpwnam(user).dir
+  user_bin = File.join(user_home, ".bin")
+  profile_bin = File.join(user_home, ".profile.d", "user_bin")
+  profile_bin_contents = <<-EOS
+export PATH=#{user_bin}:$PATH
+EOS
+  
+  met? { user_bin.p.dir? && profile_bin.p.file? && profile_bin.p.read == profile_bin_contents }
+  meet { user_bin.p.create_dir; profile_bin.p.open("w+") {|f| f << profile_bin_contents }}
 end
 
 dep 'exuberant-ctags.managed' do
@@ -19,6 +43,8 @@ dep 'exuberant-ctags.managed' do
 end
 
 dep "vundle", :user do
+  requires 'git.managed'
+
   user_home = Etc.getpwnam(user).dir
   vundle_dir = File.join(user_home, ".vim", "bundle", "vundle")
   
@@ -41,6 +67,8 @@ call vundle#rc()
 Bundle 'https://github.com/majutsushi/tagbar.git'
 Bundle 'https://github.com/altercation/vim-colors-solarized.git'
 Bundle 'https://github.com/ervandew/supertab.git'
+Bundle 'https://github.com/wincent/Command-T.git'
+Bundle 'https://github.com/sjbach/lusty.git'
 
 filetype plugin indent on
 
