@@ -7,12 +7,12 @@ end
 dep "rbenv", :user do
   requires 'rbenv.git'.with(:user => user, :commit => "7a10b64cf7e4df3261dec94f3c609a64a04998ef")
   requires 'rbenv-ruby-build.git'.with(:user => user, :commit => "5273fb325e642553cdd04b86fce5c9d6c6832367")
-  requires 'make.managed'
+  requires 'build-essential.managed'
   requires 'rbenv.profile'.with(:user => user)
 end
 
-dep 'make.managed' do
-  provides 'make'
+dep 'build-essential.managed' do
+  provides "make", "g++", "gcc"
 end
 
 dep "rbenv.git", :user, :commit do
