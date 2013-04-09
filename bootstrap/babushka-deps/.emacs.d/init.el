@@ -7,7 +7,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(solarized-theme ruby-mode inf-ruby))
+(defvar my-packages '(solarized-theme ruby-mode inf-ruby rbenv))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
