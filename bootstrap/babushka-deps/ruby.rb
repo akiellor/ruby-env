@@ -65,7 +65,7 @@ dep ".profile.d", :user do
   dot_profile_content = <<-EOS
 #!/bin/sh
 
-for FILE in $(find ~/.profile.d | tail -n-1); do source $FILE; done
+for FILE in $(find ~/.profile.d | tail -n+2); do source $FILE; done
 EOS
   
   met? { dot_profile_d.p.dir? && dot_profile.p.file? && dot_profile.p.read == dot_profile_content }
