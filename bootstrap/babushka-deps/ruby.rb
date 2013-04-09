@@ -50,8 +50,9 @@ dep "rbenv.profile", :user do
   rbenv_profile = File.expand_path(File.join(".profile.d", "rbenv"), user_home)
   rbenv = File.expand_path(".rbenv", user_home)
   rbenv_bin = File.expand_path("bin", rbenv)
+  rbenv_shims = File.expand_path("shims", rbenv)
 
-  rbenv_profile_contents = "export PATH=\"#{rbenv_bin}:$PATH\""
+  rbenv_profile_contents = "export PATH=\"#{rbenv_shims}:#{rbenv_bin}:$PATH\""
  
   met? { rbenv_profile.p.file? && rbenv_profile.p.read == rbenv_profile_contents }
   meet { rbenv_profile.p.open("w+") {|f| f << rbenv_profile_contents } }
