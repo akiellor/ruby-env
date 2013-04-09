@@ -18,5 +18,6 @@ function get_babushka {
 get_babushka
 
 babushka sources --add emacs-deps https://github.com/akiellor/emacs-deps.git
+babushka sources --add file-deps https://github.com/akiellor/file-deps.git
 
-babushka 'emacs-deps:emacs24.managed' 'ruby.env' user=vagrant
+babushka 'emacs24' 'ruby.env' user=vagrant
