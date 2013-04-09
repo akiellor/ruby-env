@@ -2,7 +2,6 @@ require 'etc'
 
 dep "ruby.env", :user do
   requires 'rbenv'.with(:user => user)
-  requires 'vim'.with(:user => user)
 end
 
 dep "rbenv", :user do
